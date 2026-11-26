@@ -3,8 +3,14 @@ name: Release
 # Builds a universal, ad-hoc-signed app, signs the archive for Sparkle, and publishes a
 # GitHub release with the zip and appcast.xml. Installed copies find it through
 # https://github.com/<owner>/<repo>/releases/latest/download/appcast.xml.
+#
+# A release happens when MARKETING_VERSION in project.yml names a version that has no
+# release yet (and release-notes/<version>.md exists), when a v* tag is pushed, or when
+# the workflow is run by hand from the Actions tab.
 on:
   push:
+    branches: [main]
+    paths: ["project.yml", "release-notes/**", ".github/workflows/release.yml"]
     tags: ["v*"]
   workflow_dispatch:
     inputs:
@@ -20,7 +26,48 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  decide:
+    runs-on: ubuntu-latest
+    outputs:
+      release: ${{ steps.decide.outputs.release }}
+      version: ${{ steps.decide.outputs.version }}
+      first: ${{ steps.decide.outputs.first }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Decide whether to release
+        id: decide
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+          elif [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          else
+            VERSION="$(sed -nE 's/^ *MARKETING_VERSION: *"?([0-9]+\.[0-9]+\.[0-9]+)"?.*/\1/p' project.yml | head -n 1)"
+          fi
+          if ! echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Version '$VERSION' must look like 1.2.3"; exit 1
+          fi
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "Release v$VERSION already exists; nothing to do."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ ! -f "release-notes/$VERSION.md" ]; then
+            echo "::error::Missing release-notes/$VERSION.md"; exit 1
+          fi
+          if [ "$(gh release list --limit 1 --json tagName --jq 'length')" = "0" ]; then
+            echo "first=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "first=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "release=true" >> "$GITHUB_OUTPUT"
+
   release:
+    needs: decide
+    if: needs.decide.outputs.release == 'true'
     runs-on: macos-15
     timeout-minutes: 60
     env:
@@ -32,24 +79,9 @@ jobs:
         id: version
         run: |
           mkdir -p logs dist
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ inputs.version }}"
-          else
-            VERSION="${GITHUB_REF_NAME#v}"
-          fi
-          if ! echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
-            echo "::error::Version '$VERSION' must look like 1.2.3"; exit 1
-          fi
-          if [ ! -f "release-notes/$VERSION.md" ]; then
-            echo "::error::Missing release-notes/$VERSION.md"; exit 1
-          fi
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "version=${{ needs.decide.outputs.version }}" >> "$GITHUB_OUTPUT"
           echo "build=${{ github.run_number }}" >> "$GITHUB_OUTPUT"
-          if [ "$(gh release list --limit 1 --json tagName --jq 'length')" = "0" ]; then
-            echo "first=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "first=false" >> "$GITHUB_OUTPUT"
-          fi
+          echo "first=${{ needs.decide.outputs.first }}" >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-python@v5
         with:

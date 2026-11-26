@@ -36,7 +36,7 @@ The design and its limits are written up in the project's feasibility and archit
 - `Packages/SiteKit/` – site reading, detection, snapshots and diffs, with unit tests (`swift test --package-path Packages/SiteKit`).
 - `project.yml` – the Xcode project, generated with [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`xcodegen generate`).
 - `.github/workflows/ci.yml` – builds and tests every push.
-- `.github/workflows/release.yml` – on a `v*` tag, builds a universal app, signs the zip for [Sparkle](https://sparkle-project.org) and publishes a release with `appcast.xml`.
+- `.github/workflows/release.yml` – builds a universal app, signs the zip for [Sparkle](https://sparkle-project.org) and publishes a release with `appcast.xml`. It runs when `MARKETING_VERSION` in `project.yml` names a version with no release yet (with notes in `release-notes/<version>.md`), when a `v*` tag is pushed, or from the Actions tab with **Run workflow**.
 
 ### Update signing
 
