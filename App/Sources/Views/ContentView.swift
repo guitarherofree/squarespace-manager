@@ -24,6 +24,9 @@ struct ContentView: View {
                 }
             }
         }
+        .safeAreaInset(edge: .top, spacing: 0) {
+            UpdateBanner()
+        }
         .sheet(isPresented: $model.isAddingSite) {
             AddSiteSheet()
         }

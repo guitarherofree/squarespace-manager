@@ -1,21 +1,23 @@
+# Standard release workflow for Freeman's Mac apps.
+#
+# To release: add a "## x.y.z" section with notes at the top of CHANGELOG.md and push to main.
+# It also runs for a pushed v* tag, or by hand from the Actions tab (Run workflow).
+#
+# Builds the app on an Apple silicon runner, signs it ad hoc, and publishes
+# <APP_NAME>-<version>-mac-arm64.zip as a GitHub release with that CHANGELOG section as notes.
+# The app's built-in updater (Packages/GitHubReleaseUpdater) finds it through the
+# releases API and checks it against the SHA-256 digest GitHub publishes for each asset.
 name: Release
 
-# Builds a universal, ad-hoc-signed app, signs the archive for Sparkle, and publishes a
-# GitHub release with the zip and appcast.xml. Installed copies find it through
-# https://github.com/<owner>/<repo>/releases/latest/download/appcast.xml.
-#
-# A release happens when MARKETING_VERSION in project.yml names a version that has no
-# release yet (and release-notes/<version>.md exists), when a v* tag is pushed, or when
-# the workflow is run by hand from the Actions tab.
 on:
   push:
     branches: [main]
-    paths: ["project.yml", "release-notes/**", ".github/workflows/release.yml"]
+    paths: ["CHANGELOG.md"]
     tags: ["v*"]
   workflow_dispatch:
     inputs:
       version:
-        description: "Version to release, e.g. 0.2.0 (needs release-notes/<version>.md)"
+        description: "Version to release, e.g. 0.3.0 (needs a CHANGELOG.md section)"
         required: true
 
 permissions:
@@ -25,13 +27,17 @@ concurrency:
   group: release
   cancel-in-progress: false
 
+env:
+  APP_NAME: Website
+  XCODE_PROJECT: Website.xcodeproj
+  XCODE_SCHEME: Website
+
 jobs:
   decide:
     runs-on: ubuntu-latest
     outputs:
       release: ${{ steps.decide.outputs.release }}
       version: ${{ steps.decide.outputs.version }}
-      first: ${{ steps.decide.outputs.first }}
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -42,25 +48,21 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             VERSION="${{ inputs.version }}"
           elif [ "${GITHUB_REF_TYPE}" = "tag" ]; then
-            VERSION="${GITHUB_REF_NAME#v}"
+            VERSION="${GITHUB_REF_NAME}"
           else
-            VERSION="$(sed -nE 's/^ *MARKETING_VERSION: *"?([0-9]+\.[0-9]+\.[0-9]+)"?.*/\1/p' project.yml | head -n 1)"
+            VERSION="$(grep -m1 -E '^## v?[0-9]+\.[0-9]+\.[0-9]+' CHANGELOG.md | awk '{print $2}')"
           fi
+          VERSION="${VERSION#v}"
           if ! echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
-            echo "::error::Version '$VERSION' must look like 1.2.3"; exit 1
+            echo "::error::Couldn't find a version like 1.2.3 (got '$VERSION')"; exit 1
           fi
           if gh release view "v$VERSION" >/dev/null 2>&1; then
             echo "Release v$VERSION already exists; nothing to do."
             echo "release=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          if [ ! -f "release-notes/$VERSION.md" ]; then
-            echo "::error::Missing release-notes/$VERSION.md"; exit 1
-          fi
-          if [ "$(gh release list --limit 1 --json tagName --jq 'length')" = "0" ]; then
-            echo "first=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "first=false" >> "$GITHUB_OUTPUT"
+          if ! bash scripts/release-notes.sh "$VERSION" | grep -q .; then
+            echo "::error::CHANGELOG.md has no notes under '## $VERSION'"; exit 1
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "release=true" >> "$GITHUB_OUTPUT"
@@ -69,82 +71,57 @@ jobs:
     needs: decide
     if: needs.decide.outputs.release == 'true'
     runs-on: macos-15
-    timeout-minutes: 60
+    timeout-minutes: 45
     env:
       GH_TOKEN: ${{ github.token }}
+      VERSION: ${{ needs.decide.outputs.version }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Resolve version
-        id: version
+      - name: Tools
         run: |
           mkdir -p logs dist
-          echo "version=${{ needs.decide.outputs.version }}" >> "$GITHUB_OUTPUT"
-          echo "build=${{ github.run_number }}" >> "$GITHUB_OUTPUT"
-          echo "first=${{ needs.decide.outputs.first }}" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install tools
-        run: |
           brew install xcodegen
-          python -m pip install --quiet cryptography markdown
+          xcodebuild -version
 
-      - name: Test SiteKit
+      - name: Tests
         run: |
           set -o pipefail
-          swift test --package-path Packages/SiteKit 2>&1 | tee logs/sitekit-tests.log
+          for package in Packages/*/; do
+            swift test --package-path "$package" 2>&1 | tee -a logs/tests.log
+          done
 
-      - name: Build release app
+      - name: Build
         run: |
           set -o pipefail
           xcodegen generate
           xcodebuild \
-            -project SquarespaceManager.xcodeproj \
-            -scheme SquarespaceManager \
+            -project "$XCODE_PROJECT" \
+            -scheme "$XCODE_SCHEME" \
             -configuration Release \
             -destination 'generic/platform=macOS' \
             -derivedDataPath build \
             -skipPackagePluginValidation \
-            ARCHS="arm64 x86_64" ONLY_ACTIVE_ARCH=NO \
-            MARKETING_VERSION="${{ steps.version.outputs.version }}" \
-            CURRENT_PROJECT_VERSION="${{ steps.version.outputs.build }}" \
+            ARCHS=arm64 ONLY_ACTIVE_ARCH=NO \
+            MARKETING_VERSION="$VERSION" \
+            CURRENT_PROJECT_VERSION="${{ github.run_number }}" \
             CODE_SIGN_IDENTITY=- \
             build 2>&1 | tee logs/release-build.log
 
-      - name: Package
+      - name: Sign ad hoc and zip
         run: |
-          APP="build/Build/Products/Release/Squarespace Manager.app"
+          APP="build/Build/Products/Release/$APP_NAME.app"
+          codesign --force --deep --sign - "$APP"
           codesign --verify --deep --strict --verbose=2 "$APP"
-          lipo -info "$APP/Contents/MacOS/Squarespace Manager"
-          ditto -c -k --sequesterRsrc --keepParent "$APP" "dist/SquarespaceManager-${{ steps.version.outputs.version }}.zip"
+          ditto -c -k --sequesterRsrc --keepParent "$APP" "dist/$APP_NAME-$VERSION-mac-arm64.zip"
+          shasum -a 256 "dist/$APP_NAME-$VERSION-mac-arm64.zip"
 
-      - name: Sign for Sparkle and write appcast
-        env:
-          SPARKLE_ED_PRIVATE_KEY: ${{ secrets.SPARKLE_ED_PRIVATE_KEY }}
+      - name: Publish release
         run: |
-          set -o pipefail
-          EXTRA=""
-          if [ "${{ steps.version.outputs.first }}" = "true" ]; then EXTRA="--allow-unsigned"; fi
-          python scripts/make_appcast.py \
-            --archive "dist/SquarespaceManager-${{ steps.version.outputs.version }}.zip" \
-            --app "build/Build/Products/Release/Squarespace Manager.app" \
-            --version "${{ steps.version.outputs.version }}" \
-            --build "${{ steps.version.outputs.build }}" \
-            --repo "$GITHUB_REPOSITORY" \
-            --notes "release-notes/${{ steps.version.outputs.version }}.md" \
-            --out dist/appcast.xml $EXTRA 2>&1 | tee logs/appcast.log
-
-      - name: Publish GitHub release
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          gh release create "v$VERSION" \
-            "dist/SquarespaceManager-$VERSION.zip" \
-            dist/appcast.xml \
-            --title "Squarespace Manager $VERSION" \
-            --notes-file "release-notes/$VERSION.md" \
+          bash scripts/release-notes.sh "$VERSION" > dist/notes.md
+          gh release create "v$VERSION" "dist/$APP_NAME-$VERSION-mac-arm64.zip" \
+            --title "$APP_NAME $VERSION" \
+            --notes-file dist/notes.md \
             --target "$GITHUB_SHA"
 
       - name: Publish build report

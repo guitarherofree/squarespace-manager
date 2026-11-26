@@ -1,24 +1,41 @@
-# Squarespace Manager
+# Website
 
-A personal macOS app for previewing, tracking and (in later versions) visually editing a Squarespace website. Not affiliated with Squarespace.
+A personal macOS app for previewing, tracking and (in later versions) visually editing freemanedwards.com, a Squarespace site. Not affiliated with Squarespace.
 
-## Install
+## Install (once)
 
-1. Open the [latest release](https://github.com/guitarherofree/squarespace-manager/releases/latest) and download `SquarespaceManager-<version>.zip`.
-2. Open the zip and drag **Squarespace Manager** into Applications.
-3. Open it. The first time, macOS says it can't check the app for malicious software, because it isn't signed with an Apple Developer ID. Go to **System Settings → Privacy & Security**, scroll down, click **Open Anyway** next to Squarespace Manager, and confirm.
+1. Download `Website-<version>-mac-arm64.zip` from the [latest release](https://github.com/guitarherofree/squarespace-manager/releases/latest).
+2. Open the zip and drag **Website** into Applications.
+3. Open it. macOS says it can't check the app for malicious software, because it isn't signed with an Apple Developer ID. Go to **System Settings → Privacy & Security**, click **Open Anyway** next to Website, and confirm. You only do this once.
 
-After that, the app updates itself. It checks GitHub daily; you can also choose **Check for Updates…** in the app menu.
+## Updates
 
-## What it does today (0.1)
+Website updates itself from this repository's GitHub releases:
+
+- It checks shortly after it opens and then once a day, and downloads new versions in the background.
+- A bar at the top of the window says when a new version is ready. **Restart Now** installs it straight away; otherwise it installs when you quit.
+- **Website › Check for Updates…** checks right away and shows the release notes.
+- Settings › Updates turns automatic checks and downloads on or off and shows the log (`~/Library/Logs/Website/update.log`).
+- Before installing, the app checks the download against the SHA-256 checksum GitHub publishes, confirms it is Website at the expected version, and verifies its code signature. The previous version is kept in `~/Library/Application Support/Website/Updates/Previous` in case you need to go back.
+
+The repository is public, so no GitHub token is needed. If it ever becomes private, paste a read-only token in Settings › Updates.
+
+## Releasing an update
+
+1. Add a section at the top of `CHANGELOG.md`:
+   ```md
+   ## 0.3.0
+   - What changed
+   ```
+2. Push to `main`.
+
+The **Release** workflow builds the app on an Apple silicon Mac, signs it ad hoc, and publishes `Website-0.3.0-mac-arm64.zip` with that section as the release notes. Installed copies pick it up on their next check. You can also run the workflow by hand from the **Actions** tab, or push a `v0.3.0` tag.
+
+## What it does today
 
 - Connects to a site by address and detects the Squarespace version (7.0 or 7.1) and template.
 - Live preview at desktop, tablet and mobile widths.
-- Snapshots of every page's content, markup and the site's CSS, saved in `~/Library/Application Support/Squarespace Manager`, with a list of what changed since the previous snapshot.
-
-## Plan
-
-The design and its limits are written up in the project's feasibility and architecture doc. In short: style and code changes are edited and published from the app; native content (text, images, blocks) is drafted in the app and finished in Squarespace's own editor, because Squarespace has no API for writing content.
+- Snapshots of every page's content, markup and the site's CSS, saved in `~/Library/Application Support/Website`, with a list of what changed since the previous snapshot.
 
 | Milestone | Status |
 | --- | --- |
@@ -33,11 +50,10 @@ The design and its limits are written up in the project's feasibility and archit
 ## How it's built
 
 - `App/` – the SwiftUI app.
-- `Packages/SiteKit/` – site reading, detection, snapshots and diffs, with unit tests (`swift test --package-path Packages/SiteKit`).
-- `project.yml` – the Xcode project, generated with [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`xcodegen generate`).
-- `.github/workflows/ci.yml` – builds and tests every push.
-- `.github/workflows/release.yml` – builds a universal app, signs the zip for [Sparkle](https://sparkle-project.org) and publishes a release with `appcast.xml`. It runs when `MARKETING_VERSION` in `project.yml` names a version with no release yet (with notes in `release-notes/<version>.md`), when a `v*` tag is pushed, or from the Actions tab with **Run workflow**.
+- `Packages/SiteKit/` – site reading, detection, snapshots and diffs.
+- `Packages/GitHubReleaseUpdater/` – the in-app updater, shared in the same form by Freeman's other Swift apps.
+- `branding/icon.svg` – the icon; `scripts/make_icons.sh` renders it into the app's icon set.
+- `project.yml` – the Xcode project, generated with [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen && xcodegen`).
+- `.github/workflows/ci.yml` builds and tests every push; `release.yml` publishes releases.
 
-### Update signing
-
-Updates are verified by Sparkle with an Ed25519 key. The public half is `SUPublicEDKey` in `project.yml`; the private half is the repository secret `SPARKLE_ED_PRIVATE_KEY`. If that secret is ever lost, installed copies can't verify new updates and need one manual download of a build with a new key.
+Run the tests with `swift test --package-path Packages/SiteKit` and `swift test --package-path Packages/GitHubReleaseUpdater`.

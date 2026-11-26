@@ -1,4 +1,4 @@
-name: SquarespaceManager
+name: Website
 
 options:
   bundleIdPrefix: com.freemanedwards
@@ -9,20 +9,20 @@ options:
 
 settings:
   base:
-    MARKETING_VERSION: "0.1.0"
+    # Local builds only. Releases take the version from the top "## x.y.z" in CHANGELOG.md.
+    MARKETING_VERSION: "0.2.0"
     CURRENT_PROJECT_VERSION: "1"
     SWIFT_VERSION: "5.0"
     MACOSX_DEPLOYMENT_TARGET: "14.0"
 
 packages:
-  Sparkle:
-    url: https://github.com/sparkle-project/Sparkle
-    from: "2.10.1"
   SiteKit:
     path: Packages/SiteKit
+  GitHubReleaseUpdater:
+    path: Packages/GitHubReleaseUpdater
 
 targets:
-  SquarespaceManager:
+  Website:
     type: application
     platform: macOS
     deploymentTarget: "14.0"
@@ -32,25 +32,21 @@ targets:
     info:
       path: App/Info.plist
       properties:
-        CFBundleName: Squarespace Manager
-        CFBundleDisplayName: Squarespace Manager
+        CFBundleName: Website
+        CFBundleDisplayName: Website
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
         LSApplicationCategoryType: public.app-category.developer-tools
         NSHumanReadableCopyright: Built for Freeman Edwards.
-        # Sparkle: where updates come from and the key that must have signed them.
-        SUFeedURL: https://github.com/guitarherofree/squarespace-manager/releases/latest/download/appcast.xml
-        SUPublicEDKey: MxonUJCvcd0TjAql26j4favvfkCekAZAXQiD1/3NaFs=
-        SUEnableAutomaticChecks: true
-        SUScheduledCheckInterval: 86400
-        SUAllowsAutomaticUpdates: true
+        # The in-app updater reads releases from this repository.
+        GitHubRepository: guitarherofree/squarespace-manager
     settings:
       base:
-        PRODUCT_NAME: Squarespace Manager
-        PRODUCT_MODULE_NAME: SquarespaceManager
-        PRODUCT_BUNDLE_IDENTIFIER: com.freemanedwards.SquarespaceManager
-        # Ad-hoc signing: no Apple Developer account. Sparkle's EdDSA signature protects updates.
+        PRODUCT_NAME: Website
+        PRODUCT_MODULE_NAME: Website
+        PRODUCT_BUNDLE_IDENTIFIER: com.freemanedwards.Website
+        # Ad-hoc signing; no Apple Developer account.
         CODE_SIGN_IDENTITY: "-"
         CODE_SIGN_STYLE: Manual
         DEVELOPMENT_TEAM: ""
@@ -59,9 +55,9 @@ targets:
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         COMBINE_HIDPI_IMAGES: YES
     dependencies:
-      - package: Sparkle
-        product: Sparkle
       - package: SiteKit
         product: SiteKit
+      - package: GitHubReleaseUpdater
+        product: GitHubReleaseUpdater
     scheme:
       testTargets: []

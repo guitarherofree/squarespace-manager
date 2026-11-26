@@ -1,21 +1,21 @@
 import SwiftUI
 
 @main
-struct SquarespaceManagerApp: App {
+struct WebsiteApp: App {
     @State private var model = AppModel()
-    @State private var updater = AppUpdater()
+    @State private var updates = UpdateController()
 
     var body: some Scene {
-        WindowGroup("Squarespace Manager") {
+        WindowGroup("Website", id: "main") {
             ContentView()
                 .environment(model)
-                .environment(updater)
+                .environment(updates)
                 .frame(minWidth: 960, minHeight: 620)
         }
         .commands {
             CommandGroup(after: .appInfo) {
                 CheckForUpdatesButton()
-                    .environment(updater)
+                    .environment(updates)
             }
             CommandGroup(replacing: .newItem) {
                 Button("Add Site…") { model.isAddingSite = true }
@@ -23,9 +23,15 @@ struct SquarespaceManagerApp: App {
             }
         }
 
+        Window("Software Update", id: "updates") {
+            UpdateWindowView()
+                .environment(updates)
+        }
+        .windowResizability(.contentSize)
+
         Settings {
             SettingsView()
-                .environment(updater)
+                .environment(updates)
         }
     }
 }

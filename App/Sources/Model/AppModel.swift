@@ -22,6 +22,7 @@ final class AppModel {
     private let client: HTTPClient = URLSessionHTTPClient(userAgent: AppInfo.userAgent)
 
     init() {
+        paths.migrateLegacyData()
         loadSites()
         for site in sites {
             reloadManifests(for: site.id)

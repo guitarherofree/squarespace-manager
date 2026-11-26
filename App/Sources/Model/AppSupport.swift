@@ -2,6 +2,10 @@ import Foundation
 import SiteKit
 
 enum AppInfo {
+    static var name: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "Website"
+    }
+
     static var version: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.0.0"
     }
@@ -14,7 +18,7 @@ enum AppInfo {
 
     /// A Safari user agent with the app's name appended, as browsers and apps usually do.
     static var userAgent: String {
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15 SquarespaceManager/\(version)"
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Safari/605.1.15 Website/\(version)"
     }
 }
 
@@ -24,7 +28,27 @@ struct AppPaths {
     init() {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Application Support")
-        root = base.appendingPathComponent("Squarespace Manager", isDirectory: true)
+        root = base.appendingPathComponent("Website", isDirectory: true)
+        legacyRoot = base.appendingPathComponent("Squarespace Manager", isDirectory: true)
+    }
+
+    /// Where versions before 0.2 (named Squarespace Manager) kept their data.
+    let legacyRoot: URL
+
+    /// Moves data from the old folder the first time the renamed app runs.
+    func migrateLegacyData() {
+        let fileManager = FileManager.default
+        guard fileManager.fileExists(atPath: legacyRoot.path) else { return }
+        let sitesExist = fileManager.fileExists(atPath: sitesFile.path)
+        guard !sitesExist else { return }
+        try? fileManager.createDirectory(at: root, withIntermediateDirectories: true)
+        let items = (try? fileManager.contentsOfDirectory(at: legacyRoot, includingPropertiesForKeys: nil)) ?? []
+        for item in items {
+            let target = root.appendingPathComponent(item.lastPathComponent)
+            if !fileManager.fileExists(atPath: target.path) {
+                try? fileManager.moveItem(at: item, to: target)
+            }
+        }
     }
 
     var sitesFile: URL { root.appendingPathComponent("sites.json") }

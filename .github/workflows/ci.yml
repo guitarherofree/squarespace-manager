@@ -29,10 +29,12 @@ jobs:
       - name: Install XcodeGen
         run: brew install xcodegen
 
-      - name: Test SiteKit
+      - name: Tests
         run: |
           set -o pipefail
-          swift test --package-path Packages/SiteKit 2>&1 | tee logs/sitekit-tests.log
+          for package in Packages/*/; do
+            swift test --package-path "$package" 2>&1 | tee -a logs/tests.log
+          done
 
       - name: Generate Xcode project
         run: xcodegen generate
@@ -41,8 +43,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild \
-            -project SquarespaceManager.xcodeproj \
-            -scheme SquarespaceManager \
+            -project Website.xcodeproj \
+            -scheme Website \
             -configuration Debug \
             -destination 'generic/platform=macOS' \
             -derivedDataPath build \
