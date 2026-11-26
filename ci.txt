@@ -1,9 +1,9 @@
 workflow: ci
 status: success
-commit: 3b1b98bf167e5c5d04344e030a263bba388d5d36
+commit: da9f8ebecb1399466960a5a44a81449d6e4c378a
 ref: main
-run: https://github.com/guitarherofree/squarespace-manager/actions/runs/45731205546
-date: 2026-11-26T00:49:07Z
+run: https://github.com/guitarherofree/squarespace-manager/actions/runs/45732705658
+date: 2026-11-26T01:01:15Z
 
 ===== logs/app-build.log: problems =====
 
@@ -19,15 +19,15 @@ CreateUniversalBinary /Users/runner/work/squarespace-manager/squarespace-manager
     cd /Users/runner/work/squarespace-manager/squarespace-manager
     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo -create /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/arm64/Binary/Squarespace\ Manager /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/x86_64/Binary/Squarespace\ Manager -output /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/MacOS/Squarespace\ Manager
 
-ExtractAppIntentsMetadata (in target 'SquarespaceManager' from project 'SquarespaceManager')
-    cd /Users/runner/work/squarespace-manager/squarespace-manager
-    /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name SquarespaceManager --sdk-root /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk --xcode-version 16F6 --platform-family macOS --deployment-target 14.0 --bundle-identifier com.freemanedwards.SquarespaceManager --output /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/Resources --target-triple arm64-apple-macos14.0 --target-triple x86_64-apple-macos14.0 --binary-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/MacOS/Squarespace\ Manager --dependency-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/arm64/Squarespace\ Manager_dependency_info.dat --dependency-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/x86_64/Squarespace\ Manager_dependency_info.dat --stringsdata-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --stringsdata-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/x86_64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/arm64/Squarespace\ Manager.SwiftFileList --source-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/x86_64/Squarespace\ Manager.SwiftFileList --metadata-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Squarespace\ Manager.DependencyMetadataFileList --static-metadata-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Squarespace\ Manager.DependencyStaticMetadataFileList --swift-const-vals-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/arm64/Squarespace\ Manager.SwiftConstValuesFileList --swift-const-vals-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/x86_64/Squarespace\ Manager.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
-2026-11-26 00:49:05.519 appintentsmetadataprocessor[3405:13827] Starting appintentsmetadataprocessor export
-2026-11-26 00:49:05.521 appintentsmetadataprocessor[3405:13827] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
-
 CopySwiftLibs /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app (in target 'SquarespaceManager' from project 'SquarespaceManager')
     cd /Users/runner/work/squarespace-manager/squarespace-manager
     builtin-swiftStdLibTool --copy --verbose --sign - --scan-executable /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/MacOS/Squarespace\ Manager.debug.dylib --scan-folder /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/Frameworks --scan-folder /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/PlugIns --scan-folder /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/Library/SystemExtensions --scan-folder /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/Extensions --platform macosx --toolchain /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+
+ExtractAppIntentsMetadata (in target 'SquarespaceManager' from project 'SquarespaceManager')
+    cd /Users/runner/work/squarespace-manager/squarespace-manager
+    /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name SquarespaceManager --sdk-root /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk --xcode-version 16F6 --platform-family macOS --deployment-target 14.0 --bundle-identifier com.freemanedwards.SquarespaceManager --output /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/Resources --target-triple arm64-apple-macos14.0 --target-triple x86_64-apple-macos14.0 --binary-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/MacOS/Squarespace\ Manager --dependency-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/arm64/Squarespace\ Manager_dependency_info.dat --dependency-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/x86_64/Squarespace\ Manager_dependency_info.dat --stringsdata-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --stringsdata-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/x86_64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/arm64/Squarespace\ Manager.SwiftFileList --source-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/x86_64/Squarespace\ Manager.SwiftFileList --metadata-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Squarespace\ Manager.DependencyMetadataFileList --static-metadata-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Squarespace\ Manager.DependencyStaticMetadataFileList --swift-const-vals-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/arm64/Squarespace\ Manager.SwiftConstValuesFileList --swift-const-vals-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/SquarespaceManager.build/Debug/SquarespaceManager.build/Objects-normal/x86_64/Squarespace\ Manager.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
+2026-11-26 01:01:14.016 appintentsmetadataprocessor[2699:12022] Starting appintentsmetadataprocessor export
+2026-11-26 01:01:14.019 appintentsmetadataprocessor[2699:12022] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
 
 CodeSign /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Squarespace\ Manager.app/Contents/MacOS/Squarespace\ Manager.debug.dylib (in target 'SquarespaceManager' from project 'SquarespaceManager')
     cd /Users/runner/work/squarespace-manager/squarespace-manager
@@ -72,16 +72,16 @@ RegisterWithLaunchServices /Users/runner/work/squarespace-manager/squarespace-ma
 ===== logs/sitekit-tests.log: problems =====
 
 ===== logs/sitekit-tests.log: last 60 lines =====
-[16/19] Compiling SiteKitPackageTests runner.swift
-[17/19] Emitting module SiteKitPackageTests
+[16/19] Emitting module SiteKitPackageTests
+[17/19] Compiling SiteKitPackageTests runner.swift
 [17/19] Write Objects.LinkFileList
 [18/19] Linking SiteKitPackageTests
-Build complete! (23.63s)
-Test Suite 'All tests' started at 2026-11-26 00:47:53.622.
-Test Suite 'SiteKitPackageTests.xctest' started at 2026-11-26 00:47:53.623.
-Test Suite 'AddressAndPathTests' started at 2026-11-26 00:47:53.624.
+Build complete! (12.56s)
+Test Suite 'All tests' started at 2026-11-26 01:00:40.070.
+Test Suite 'SiteKitPackageTests.xctest' started at 2026-11-26 01:00:40.072.
+Test Suite 'AddressAndPathTests' started at 2026-11-26 01:00:40.073.
 Test Case '-[SiteKitTests.AddressAndPathTests testJSONURL]' started.
-Test Case '-[SiteKitTests.AddressAndPathTests testJSONURL]' passed (0.003 seconds).
+Test Case '-[SiteKitTests.AddressAndPathTests testJSONURL]' passed (0.020 seconds).
 Test Case '-[SiteKitTests.AddressAndPathTests testNormalizesTypedAddresses]' started.
 Test Case '-[SiteKitTests.AddressAndPathTests testNormalizesTypedAddresses]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.AddressAndPathTests testSitemap]' started.
@@ -90,9 +90,9 @@ Test Case '-[SiteKitTests.AddressAndPathTests testSlugs]' started.
 Test Case '-[SiteKitTests.AddressAndPathTests testSlugs]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.AddressAndPathTests testTitle]' started.
 Test Case '-[SiteKitTests.AddressAndPathTests testTitle]' passed (0.000 seconds).
-Test Suite 'AddressAndPathTests' passed at 2026-11-26 00:47:53.628.
-	 Executed 5 tests, with 0 failures (0 unexpected) in 0.005 (0.005) seconds
-Test Suite 'DetectionTests' started at 2026-11-26 00:47:53.629.
+Test Suite 'AddressAndPathTests' passed at 2026-11-26 01:00:40.095.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.022 (0.022) seconds
+Test Suite 'DetectionTests' started at 2026-11-26 01:00:40.095.
 Test Case '-[SiteKitTests.DetectionTests testFallsBackToMarkupMarkers]' started.
 Test Case '-[SiteKitTests.DetectionTests testFallsBackToMarkupMarkers]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.DetectionTests testNonSquarespacePage]' started.
@@ -101,33 +101,33 @@ Test Case '-[SiteKitTests.DetectionTests testReadsVersion70FromContext]' started
 Test Case '-[SiteKitTests.DetectionTests testReadsVersion70FromContext]' passed (0.001 seconds).
 Test Case '-[SiteKitTests.DetectionTests testReadsVersion71FromContext]' started.
 Test Case '-[SiteKitTests.DetectionTests testReadsVersion71FromContext]' passed (0.000 seconds).
-Test Suite 'DetectionTests' passed at 2026-11-26 00:47:53.630.
-	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.002) seconds
-Test Suite 'NormalizerTests' started at 2026-11-26 00:47:53.630.
+Test Suite 'DetectionTests' passed at 2026-11-26 01:00:40.096.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'NormalizerTests' started at 2026-11-26 01:00:40.096.
 Test Case '-[SiteKitTests.NormalizerTests testContentHashIgnoresVolatileKeysAndOrder]' started.
-Test Case '-[SiteKitTests.NormalizerTests testContentHashIgnoresVolatileKeysAndOrder]' passed (0.001 seconds).
+Test Case '-[SiteKitTests.NormalizerTests testContentHashIgnoresVolatileKeysAndOrder]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.NormalizerTests testMarkupHashIgnoresScripts]' started.
 Test Case '-[SiteKitTests.NormalizerTests testMarkupHashIgnoresScripts]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.NormalizerTests testRedaction]' started.
 Test Case '-[SiteKitTests.NormalizerTests testRedaction]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.NormalizerTests testSHA256]' started.
 Test Case '-[SiteKitTests.NormalizerTests testSHA256]' passed (0.000 seconds).
-Test Suite 'NormalizerTests' passed at 2026-11-26 00:47:53.631.
+Test Suite 'NormalizerTests' passed at 2026-11-26 01:00:40.097.
 	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'PlanTests' started at 2026-11-26 00:47:53.631.
+Test Suite 'PlanTests' started at 2026-11-26 01:00:40.097.
 Test Case '-[SiteKitTests.PlanTests testRoutes]' started.
 Test Case '-[SiteKitTests.PlanTests testRoutes]' passed (0.000 seconds).
-Test Suite 'PlanTests' passed at 2026-11-26 00:47:53.632.
+Test Suite 'PlanTests' passed at 2026-11-26 01:00:40.097.
 	 Executed 1 test, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
-Test Suite 'SnapshotTests' started at 2026-11-26 00:47:53.632.
+Test Suite 'SnapshotTests' started at 2026-11-26 01:00:40.097.
 Test Case '-[SiteKitTests.SnapshotTests testSnapshotAndDiff]' started.
-Test Case '-[SiteKitTests.SnapshotTests testSnapshotAndDiff]' passed (0.014 seconds).
-Test Suite 'SnapshotTests' passed at 2026-11-26 00:47:53.645.
-	 Executed 1 test, with 0 failures (0 unexpected) in 0.014 (0.014) seconds
-Test Suite 'SiteKitPackageTests.xctest' passed at 2026-11-26 00:47:53.645.
-	 Executed 15 tests, with 0 failures (0 unexpected) in 0.021 (0.022) seconds
-Test Suite 'All tests' passed at 2026-11-26 00:47:53.646.
-	 Executed 15 tests, with 0 failures (0 unexpected) in 0.021 (0.024) seconds
+Test Case '-[SiteKitTests.SnapshotTests testSnapshotAndDiff]' passed (0.012 seconds).
+Test Suite 'SnapshotTests' passed at 2026-11-26 01:00:40.109.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.012 (0.012) seconds
+Test Suite 'SiteKitPackageTests.xctest' passed at 2026-11-26 01:00:40.109.
+	 Executed 15 tests, with 0 failures (0 unexpected) in 0.036 (0.037) seconds
+Test Suite 'All tests' passed at 2026-11-26 01:00:40.109.
+	 Executed 15 tests, with 0 failures (0 unexpected) in 0.036 (0.039) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 124.4
 ↳ Target Platform: arm64e-apple-macos14.0
