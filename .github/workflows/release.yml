@@ -1,0 +1,122 @@
+name: Release
+
+# Builds a universal, ad-hoc-signed app, signs the archive for Sparkle, and publishes a
+# GitHub release with the zip and appcast.xml. Installed copies find it through
+# https://github.com/<owner>/<repo>/releases/latest/download/appcast.xml.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, e.g. 0.2.0 (needs release-notes/<version>.md)"
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        run: |
+          mkdir -p logs dist
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          if ! echo "$VERSION" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Version '$VERSION' must look like 1.2.3"; exit 1
+          fi
+          if [ ! -f "release-notes/$VERSION.md" ]; then
+            echo "::error::Missing release-notes/$VERSION.md"; exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "build=${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+          if [ "$(gh release list --limit 1 --json tagName --jq 'length')" = "0" ]; then
+            echo "first=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "first=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tools
+        run: |
+          brew install xcodegen
+          python -m pip install --quiet cryptography markdown
+
+      - name: Test SiteKit
+        run: |
+          set -o pipefail
+          swift test --package-path Packages/SiteKit 2>&1 | tee logs/sitekit-tests.log
+
+      - name: Build release app
+        run: |
+          set -o pipefail
+          xcodegen generate
+          xcodebuild \
+            -project SquarespaceManager.xcodeproj \
+            -scheme SquarespaceManager \
+            -configuration Release \
+            -destination 'generic/platform=macOS' \
+            -derivedDataPath build \
+            -skipPackagePluginValidation \
+            ARCHS="arm64 x86_64" ONLY_ACTIVE_ARCH=NO \
+            MARKETING_VERSION="${{ steps.version.outputs.version }}" \
+            CURRENT_PROJECT_VERSION="${{ steps.version.outputs.build }}" \
+            CODE_SIGN_IDENTITY=- \
+            build 2>&1 | tee logs/release-build.log
+
+      - name: Package
+        run: |
+          APP="build/Build/Products/Release/Squarespace Manager.app"
+          codesign --verify --deep --strict --verbose=2 "$APP"
+          lipo -info "$APP/Contents/MacOS/Squarespace Manager"
+          ditto -c -k --sequesterRsrc --keepParent "$APP" "dist/SquarespaceManager-${{ steps.version.outputs.version }}.zip"
+
+      - name: Sign for Sparkle and write appcast
+        env:
+          SPARKLE_ED_PRIVATE_KEY: ${{ secrets.SPARKLE_ED_PRIVATE_KEY }}
+        run: |
+          set -o pipefail
+          EXTRA=""
+          if [ "${{ steps.version.outputs.first }}" = "true" ]; then EXTRA="--allow-unsigned"; fi
+          python scripts/make_appcast.py \
+            --archive "dist/SquarespaceManager-${{ steps.version.outputs.version }}.zip" \
+            --app "build/Build/Products/Release/Squarespace Manager.app" \
+            --version "${{ steps.version.outputs.version }}" \
+            --build "${{ steps.version.outputs.build }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --notes "release-notes/${{ steps.version.outputs.version }}.md" \
+            --out dist/appcast.xml $EXTRA 2>&1 | tee logs/appcast.log
+
+      - name: Publish GitHub release
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          gh release create "v$VERSION" \
+            "dist/SquarespaceManager-$VERSION.zip" \
+            dist/appcast.xml \
+            --title "Squarespace Manager $VERSION" \
+            --notes-file "release-notes/$VERSION.md" \
+            --target "$GITHUB_SHA"
+
+      - name: Publish build report
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/publish-ci-log.sh release "${{ job.status }}"
