@@ -1,19 +1,19 @@
 workflow: ci
 status: success
-commit: 6cd8b943e8d4f5013c3b828f21fc85233ec499ae
+commit: 831f8c95d904e669987b811f1a0dabfcb3376ff5
 ref: main
-run: https://github.com/guitarherofree/squarespace-manager/actions/runs/45942265137
-date: 2026-11-27T04:52:43Z
+run: https://github.com/guitarherofree/squarespace-manager/actions/runs/45942523299
+date: 2026-11-27T04:55:21Z
 
 ===== logs/app-build.log: problems =====
 
 ===== logs/app-build.log: last 60 lines =====
+    construct-stub-executor-link-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/arm64/Binary/Website.debug.dylib /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Website-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'Website' from project 'Website')
+
+Ld /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/arm64/Binary/Website normal arm64 (in target 'Website' from project 'Website')
     cd /Users/runner/work/squarespace-manager/squarespace-manager
     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos14.0 -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk -O0 -L/Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug -F/Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/PackageFrameworks -F/Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/PackageFrameworks -F/Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/PackageFrameworks -Xlinker -rpath -Xlinker @executable_path/../Frameworks -rdynamic -Xlinker -no_deduplicate -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Website-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Website-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Website-ExecutorLinkFileList-normal-arm64.txt /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/arm64/Binary/Website.debug.dylib -Xlinker -no_adhoc_codesign -o /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/arm64/Binary/Website
-
-Ld /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/x86_64/Binary/Website normal x86_64 (in target 'Website' from project 'Website')
-    cd /Users/runner/work/squarespace-manager/squarespace-manager
-    /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target x86_64-apple-macos14.0 -isysroot /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk -O0 -L/Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug -F/Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/PackageFrameworks -F/Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/PackageFrameworks -F/Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug -Xlinker -rpath -Xlinker @executable_path -Xlinker -rpath -Xlinker /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/PackageFrameworks -Xlinker -rpath -Xlinker @executable_path/../Frameworks -rdynamic -Xlinker -no_deduplicate -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Website-DebugDylibPath-normal-x86_64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Website-DebugDylibInstallName-normal-x86_64.txt -Xlinker -filelist -Xlinker /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Website-ExecutorLinkFileList-normal-x86_64.txt /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/x86_64/Binary/Website.debug.dylib -Xlinker -no_adhoc_codesign -o /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/x86_64/Binary/Website
 
 CreateUniversalBinary /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Website.app/Contents/MacOS/Website normal arm64\ x86_64 (in target 'Website' from project 'Website')
     cd /Users/runner/work/squarespace-manager/squarespace-manager
@@ -22,8 +22,8 @@ CreateUniversalBinary /Users/runner/work/squarespace-manager/squarespace-manager
 ExtractAppIntentsMetadata (in target 'Website' from project 'Website')
     cd /Users/runner/work/squarespace-manager/squarespace-manager
     /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name Website --sdk-root /Applications/Xcode_16.4.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.5.sdk --xcode-version 16F6 --platform-family macOS --deployment-target 14.0 --bundle-identifier com.freemanedwards.Website --output /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Website.app/Contents/Resources --target-triple arm64-apple-macos14.0 --target-triple x86_64-apple-macos14.0 --binary-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Website.app/Contents/MacOS/Website --dependency-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/arm64/Website_dependency_info.dat --dependency-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/x86_64/Website_dependency_info.dat --stringsdata-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --stringsdata-file /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/x86_64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/arm64/Website.SwiftFileList --source-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/x86_64/Website.SwiftFileList --metadata-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Website.DependencyMetadataFileList --static-metadata-file-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Website.DependencyStaticMetadataFileList --swift-const-vals-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/arm64/Website.SwiftConstValuesFileList --swift-const-vals-list /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Intermediates.noindex/Website.build/Debug/Website.build/Objects-normal/x86_64/Website.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --validate-assistant-intents --no-app-shortcuts-localization
-2026-11-27 04:52:42.450 appintentsmetadataprocessor[6937:25275] Starting appintentsmetadataprocessor export
-2026-11-27 04:52:42.453 appintentsmetadataprocessor[6937:25275] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
+2026-11-27 04:55:20.332 appintentsmetadataprocessor[12871:40358] Starting appintentsmetadataprocessor export
+2026-11-27 04:55:20.335 appintentsmetadataprocessor[12871:40358] warning: Metadata extraction skipped. No AppIntents.framework dependency found.
 
 CopySwiftLibs /Users/runner/work/squarespace-manager/squarespace-manager/build/Build/Products/Debug/Website.app (in target 'Website' from project 'Website')
     cd /Users/runner/work/squarespace-manager/squarespace-manager
@@ -70,15 +70,15 @@ RegisterWithLaunchServices /Users/runner/work/squarespace-manager/squarespace-ma
 
 
 ===== logs/tests.log: problems =====
-34:	 Executed 7 tests, with 0 failures (0 unexpected) in 0.086 (0.087) seconds
-36:	 Executed 7 tests, with 0 failures (0 unexpected) in 0.086 (0.087) seconds
-38:	 Executed 7 tests, with 0 failures (0 unexpected) in 0.086 (0.091) seconds
-78:	 Executed 5 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
-89:	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-102:	 Executed 5 tests, with 0 failures (0 unexpected) in 0.025 (0.025) seconds
-113:	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-125:	 Executed 20 tests, with 0 failures (0 unexpected) in 0.039 (0.040) seconds
-127:	 Executed 20 tests, with 0 failures (0 unexpected) in 0.039 (0.042) seconds
+35:	 Executed 7 tests, with 0 failures (0 unexpected) in 0.135 (0.136) seconds
+37:	 Executed 7 tests, with 0 failures (0 unexpected) in 0.135 (0.136) seconds
+39:	 Executed 7 tests, with 0 failures (0 unexpected) in 0.135 (0.139) seconds
+80:	 Executed 5 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+91:	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+104:	 Executed 5 tests, with 0 failures (0 unexpected) in 0.038 (0.038) seconds
+115:	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+127:	 Executed 20 tests, with 0 failures (0 unexpected) in 0.066 (0.067) seconds
+129:	 Executed 20 tests, with 0 failures (0 unexpected) in 0.066 (0.069) seconds
 
 ===== logs/tests.log: last 60 lines =====
 Test Case '-[SiteKitTests.AddressAndPathTests testSitemap]' passed (0.001 seconds).
@@ -86,9 +86,9 @@ Test Case '-[SiteKitTests.AddressAndPathTests testSlugs]' started.
 Test Case '-[SiteKitTests.AddressAndPathTests testSlugs]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.AddressAndPathTests testTitle]' started.
 Test Case '-[SiteKitTests.AddressAndPathTests testTitle]' passed (0.000 seconds).
-Test Suite 'AddressAndPathTests' passed at 2026-11-27 04:51:32.108.
+Test Suite 'AddressAndPathTests' passed at 2026-11-27 04:54:17.669.
 	 Executed 5 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
-Test Suite 'DetectionTests' started at 2026-11-27 04:51:32.108.
+Test Suite 'DetectionTests' started at 2026-11-27 04:54:17.669.
 Test Case '-[SiteKitTests.DetectionTests testFallsBackToMarkupMarkers]' started.
 Test Case '-[SiteKitTests.DetectionTests testFallsBackToMarkupMarkers]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.DetectionTests testNonSquarespacePage]' started.
@@ -97,46 +97,46 @@ Test Case '-[SiteKitTests.DetectionTests testReadsVersion70FromContext]' started
 Test Case '-[SiteKitTests.DetectionTests testReadsVersion70FromContext]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.DetectionTests testReadsVersion71FromContext]' started.
 Test Case '-[SiteKitTests.DetectionTests testReadsVersion71FromContext]' passed (0.000 seconds).
-Test Suite 'DetectionTests' passed at 2026-11-27 04:51:32.109.
+Test Suite 'DetectionTests' passed at 2026-11-27 04:54:17.670.
 	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'MusicCatalogTests' started at 2026-11-27 04:51:32.109.
+Test Suite 'MusicCatalogTests' started at 2026-11-27 04:54:17.670.
 Test Case '-[SiteKitTests.MusicCatalogTests testBuildsYearGroupsInVisualOrder]' started.
 Test Case '-[SiteKitTests.MusicCatalogTests testBuildsYearGroupsInVisualOrder]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.MusicCatalogTests testParsesSourceHTML]' started.
-Test Case '-[SiteKitTests.MusicCatalogTests testParsesSourceHTML]' passed (0.001 seconds).
+Test Case '-[SiteKitTests.MusicCatalogTests testParsesSourceHTML]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.MusicCatalogTests testPlacementHints]' started.
 Test Case '-[SiteKitTests.MusicCatalogTests testPlacementHints]' passed (0.003 seconds).
 Test Case '-[SiteKitTests.MusicCatalogTests testScansFolderAndCompares]' started.
-Test Case '-[SiteKitTests.MusicCatalogTests testScansFolderAndCompares]' passed (0.018 seconds).
+Test Case '-[SiteKitTests.MusicCatalogTests testScansFolderAndCompares]' passed (0.027 seconds).
 Test Case '-[SiteKitTests.MusicCatalogTests testTitlesAndYears]' started.
-Test Case '-[SiteKitTests.MusicCatalogTests testTitlesAndYears]' passed (0.003 seconds).
-Test Suite 'MusicCatalogTests' passed at 2026-11-27 04:51:32.134.
-	 Executed 5 tests, with 0 failures (0 unexpected) in 0.025 (0.025) seconds
-Test Suite 'NormalizerTests' started at 2026-11-27 04:51:32.134.
+Test Case '-[SiteKitTests.MusicCatalogTests testTitlesAndYears]' passed (0.007 seconds).
+Test Suite 'MusicCatalogTests' passed at 2026-11-27 04:54:17.708.
+	 Executed 5 tests, with 0 failures (0 unexpected) in 0.038 (0.038) seconds
+Test Suite 'NormalizerTests' started at 2026-11-27 04:54:17.708.
 Test Case '-[SiteKitTests.NormalizerTests testContentHashIgnoresVolatileKeysAndOrder]' started.
-Test Case '-[SiteKitTests.NormalizerTests testContentHashIgnoresVolatileKeysAndOrder]' passed (0.001 seconds).
+Test Case '-[SiteKitTests.NormalizerTests testContentHashIgnoresVolatileKeysAndOrder]' passed (0.002 seconds).
 Test Case '-[SiteKitTests.NormalizerTests testMarkupHashIgnoresScripts]' started.
-Test Case '-[SiteKitTests.NormalizerTests testMarkupHashIgnoresScripts]' passed (0.000 seconds).
+Test Case '-[SiteKitTests.NormalizerTests testMarkupHashIgnoresScripts]' passed (0.001 seconds).
 Test Case '-[SiteKitTests.NormalizerTests testRedaction]' started.
 Test Case '-[SiteKitTests.NormalizerTests testRedaction]' passed (0.000 seconds).
 Test Case '-[SiteKitTests.NormalizerTests testSHA256]' started.
 Test Case '-[SiteKitTests.NormalizerTests testSHA256]' passed (0.000 seconds).
-Test Suite 'NormalizerTests' passed at 2026-11-27 04:51:32.136.
-	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
-Test Suite 'PlanTests' started at 2026-11-27 04:51:32.136.
+Test Suite 'NormalizerTests' passed at 2026-11-27 04:54:17.711.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+Test Suite 'PlanTests' started at 2026-11-27 04:54:17.711.
 Test Case '-[SiteKitTests.PlanTests testRoutes]' started.
 Test Case '-[SiteKitTests.PlanTests testRoutes]' passed (0.000 seconds).
-Test Suite 'PlanTests' passed at 2026-11-27 04:51:32.136.
+Test Suite 'PlanTests' passed at 2026-11-27 04:54:17.711.
 	 Executed 1 test, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
-Test Suite 'SnapshotTests' started at 2026-11-27 04:51:32.136.
+Test Suite 'SnapshotTests' started at 2026-11-27 04:54:17.711.
 Test Case '-[SiteKitTests.SnapshotTests testSnapshotAndDiff]' started.
-Test Case '-[SiteKitTests.SnapshotTests testSnapshotAndDiff]' passed (0.009 seconds).
-Test Suite 'SnapshotTests' passed at 2026-11-27 04:51:32.145.
-	 Executed 1 test, with 0 failures (0 unexpected) in 0.009 (0.009) seconds
-Test Suite 'SiteKitPackageTests.xctest' passed at 2026-11-27 04:51:32.145.
-	 Executed 20 tests, with 0 failures (0 unexpected) in 0.039 (0.040) seconds
-Test Suite 'All tests' passed at 2026-11-27 04:51:32.145.
-	 Executed 20 tests, with 0 failures (0 unexpected) in 0.039 (0.042) seconds
+Test Case '-[SiteKitTests.SnapshotTests testSnapshotAndDiff]' passed (0.021 seconds).
+Test Suite 'SnapshotTests' passed at 2026-11-27 04:54:17.732.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.021 (0.021) seconds
+Test Suite 'SiteKitPackageTests.xctest' passed at 2026-11-27 04:54:17.733.
+	 Executed 20 tests, with 0 failures (0 unexpected) in 0.066 (0.067) seconds
+Test Suite 'All tests' passed at 2026-11-27 04:54:17.733.
+	 Executed 20 tests, with 0 failures (0 unexpected) in 0.066 (0.069) seconds
 ◇ Test run started.
 ↳ Testing Library Version: 124.4
 ↳ Target Platform: arm64e-apple-macos14.0
