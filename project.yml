@@ -10,7 +10,7 @@ options:
 settings:
   base:
     # Local builds only. Releases take the version from the top "## x.y.z" in CHANGELOG.md.
-    MARKETING_VERSION: "0.2.0"
+    MARKETING_VERSION: "0.3.0"
     CURRENT_PROJECT_VERSION: "1"
     SWIFT_VERSION: "5.0"
     MACOSX_DEPLOYMENT_TARGET: "14.0"
