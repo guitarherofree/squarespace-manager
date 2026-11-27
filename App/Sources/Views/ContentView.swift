@@ -93,6 +93,8 @@ struct SiteDetailView: View {
                 .tabItem { Label("Overview", systemImage: "info.circle") }
             SitePreviewView(siteID: siteID)
                 .tabItem { Label("Preview", systemImage: "macwindow") }
+            MusicView(siteID: siteID)
+                .tabItem { Label("Music", systemImage: "music.note.list") }
             SnapshotsView(siteID: siteID)
                 .tabItem { Label("Snapshots", systemImage: "clock.arrow.circlepath") }
         }

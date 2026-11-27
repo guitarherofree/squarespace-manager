@@ -58,6 +58,8 @@ struct AppPaths {
             .appendingPathComponent(id.uuidString, isDirectory: true)
     }
 
+    var uploadsDirectory: URL { root.appendingPathComponent("Uploads", isDirectory: true) }
+
     func snapshotsDirectory(_ id: UUID) -> URL {
         siteDirectory(id).appendingPathComponent("Snapshots", isDirectory: true)
     }
@@ -71,6 +73,10 @@ struct SiteRecord: Codable, Identifiable, Hashable {
     var plan: SquarespacePlan
     var info: SiteInfo?
     var addedAt: Date
+    /// Music tab settings: the recordings folder, the music page's path, and second lines by piece.
+    var musicFolder: String?
+    var musicPagePath: String?
+    var musicSubtitles: [String: String]?
 
     var homeURL: URL? { URL(string: url) }
 }

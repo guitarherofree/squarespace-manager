@@ -23,6 +23,12 @@ struct WebsiteApp: App {
             }
         }
 
+        Window("Add to Squarespace", id: "editor") {
+            EditorWindowView()
+                .environment(model)
+        }
+        .defaultSize(width: 1280, height: 860)
+
         Window("Software Update", id: "updates") {
             UpdateWindowView()
                 .environment(updates)

@@ -18,7 +18,11 @@ final class AppModel {
     var refreshing: Set<UUID> = []
 
     private let paths = AppPaths()
+    /// The site whose prepared files the Add to Squarespace window shows.
+    var editorSiteID: UUID?
+
     @ObservationIgnored private var snapshotTasks: [UUID: Task<Void, Never>] = [:]
+    @ObservationIgnored private var musicModels: [UUID: MusicModel] = [:]
     private let client: HTTPClient = URLSessionHTTPClient(userAgent: AppInfo.userAgent)
 
     init() {
@@ -90,8 +94,37 @@ final class AppModel {
     func removeSite(_ id: UUID) {
         snapshotTasks[id]?.cancel()
         sites.removeAll { $0.id == id }
+        musicModels[id] = nil
+        if editorSiteID == id { editorSiteID = nil }
         manifests[id] = nil
         if selectedSiteID == id { selectedSiteID = sites.first?.id }
+        saveSites()
+    }
+
+    /// The Music tab's model for a site, created on first use.
+    func music(for id: UUID) -> MusicModel? {
+        if let existing = musicModels[id] { return existing }
+        guard let site = self.site(id), let url = site.homeURL else { return nil }
+        let music = MusicModel(
+            siteID: id,
+            siteURL: url,
+            folder: site.musicFolder.map { URL(fileURLWithPath: $0, isDirectory: true) },
+            pagePath: site.musicPagePath ?? "/music",
+            subtitles: site.musicSubtitles ?? [:],
+            uploadsRoot: paths.uploadsDirectory
+        )
+        music.persist = { [weak self] folder, pagePath, subtitles in
+            self?.saveMusicSettings(for: id, folder: folder, pagePath: pagePath, subtitles: subtitles)
+        }
+        musicModels[id] = music
+        return music
+    }
+
+    private func saveMusicSettings(for id: UUID, folder: URL?, pagePath: String, subtitles: [String: String]) {
+        guard let index = sites.firstIndex(where: { $0.id == id }) else { return }
+        sites[index].musicFolder = folder?.path
+        sites[index].musicPagePath = pagePath
+        sites[index].musicSubtitles = subtitles
         saveSites()
     }
 

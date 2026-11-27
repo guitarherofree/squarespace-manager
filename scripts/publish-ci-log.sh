@@ -18,7 +18,7 @@ report="$(mktemp)"
     [ -f "$log" ] || continue
     echo
     echo "===== ${log}: problems ====="
-    grep -nE "Executed [0-9]+ tests|error:|fatal error:|BUILD FAILED|\*\* [A-Z ]+ FAILED \*\*|Test Case .* failed|XCTAssert|::error::" "$log" | head -n 150 || true
+    grep -nE "Executed [0-9]+ tests|nearly matches|error:|fatal error:|BUILD FAILED|\*\* [A-Z ]+ FAILED \*\*|Test Case .* failed|XCTAssert|::error::" "$log" | head -n 150 || true
     echo
     echo "===== ${log}: last 60 lines ====="
     tail -n 60 "$log"
