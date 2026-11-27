@@ -200,7 +200,7 @@ public enum PieceTitle {
         return (0, 0, normalize(title))
     }
 
-    static func comesBefore(_ a: String, _ b: String) -> Bool {
+    public static func comesBefore(_ a: String, _ b: String) -> Bool {
         let x = sortKey(a)
         let y = sortKey(b)
         if x.0 != y.0 { return x.0 < y.0 }
